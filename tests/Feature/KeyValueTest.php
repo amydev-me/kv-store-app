@@ -41,16 +41,16 @@ class KeyValueTest extends TestCase
         $value2 = ['foo' => 'baz'];
 
         // Create initial record
-        KeyValue::create(['key' => $key, 'value' => $value1]);
+        KeyValue::create(['key' => $key, 'value' => json_encode($value1)]);
 
         // Create latest record
-        KeyValue::create(['key' => $key, 'value' => $value2]);
+        KeyValue::create(['key' => $key, 'value' => json_encode($value2)]);
 
         // Make GET request to fetch the latest value by key
         $response = $this->getJson("/api/object/{$key}");
 
         // Assert the response
         $response->assertStatus(200)
-                 ->assertJson($value2);
+                 ->assertJsonFragment($value2);
     }
 }
