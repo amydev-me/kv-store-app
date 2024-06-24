@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\KeyValue;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class KeyValueTest extends TestCase
@@ -13,6 +14,7 @@ class KeyValueTest extends TestCase
     /**
      * A basic feature test example.
      */
+    #[Test]
     public function it_can_store_a_key_value_pair(): void
     {
         $storedData = [
@@ -31,7 +33,8 @@ class KeyValueTest extends TestCase
         ]);
     }
 
-    public function it_can_get_the_latest_value_by_key() : void
+    #[Test]
+    public function it_can_get_the_latest_value_by_key()
     {
         $key = 'mykey';
         $value1 = ['foo' => 'bar'];
