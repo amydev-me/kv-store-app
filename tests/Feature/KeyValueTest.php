@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class KeyValueTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
     /**
      * A basic feature test example.
      */
