@@ -43,7 +43,7 @@ class KeyValueController extends Controller
     // Get the latest value for a given key
     public function getDataByKey($key)
     {
-        $record = KeyValue::where('key', $key)->orderByDesc('created_at')->latest('id')->first();
+        $record = KeyValue::where('key', $key)->latest('id')->first();
 
         if ($record) {
             return response()->json(json_decode($record->value));
