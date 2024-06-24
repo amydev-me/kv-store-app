@@ -40,15 +40,33 @@ class KeyValueController extends Controller
         ], 201);
     }
 
-    // Get the latest value for a given key
-    public function getDataByKey($key)
+    public function getData($key, Request $request)
     {
-        $record = KeyValue::where('key', $key)->latest('id')->first();
+        // Check if timestamp parameter is provided in the request
+        if ($request->has('timestamp')) {
+            $timestamp = $request->query('timestamp');
 
-        if ($record) {
-            return response()->json(json_decode($record->value));
+            // Query the database for the value at the specified timestamp
+            $value = KeyValue::where('key', $key)
+                             ->where('created_at', '<=', date('Y-m-d H:i:s', $timestamp))
+                             ->orderBy('created_at', 'desc')
+                             ->orderBy('id', 'desc')  
+                             ->first();
+
+            if ($value) {
+                return response()->json(json_decode($value->value));
+            } else {
+                return response()->json(['error' => 'No value found for the given timestamp.'], 404);
+            }
+        } else {
+            // If no timestamp parameter is provided, return the latest value for the key
+            $record = KeyValue::where('key', $key)->latest('id')->first();
+
+            if ($record) {
+                return response()->json(json_decode($record->value));
+            } else {
+                return response()->json(['error' => 'No value found for the given key.'], 404);
+            }
         }
-
-        return response()->json(['error' => 'Key not found'], 404);
     }
 }
