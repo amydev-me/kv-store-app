@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class KeyValue extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
+    protected $fillable = ['key', 'value', 'created_at'];
 }
