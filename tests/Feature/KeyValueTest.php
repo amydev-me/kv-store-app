@@ -14,24 +14,24 @@ class KeyValueTest extends TestCase
     /**
      * A basic feature test example.
      */
-    // #[Test]
-    // public function it_can_store_a_key_value_pair(): void
-    // {
-    //     $storedData = [
-    //         'key' => 'mykey',
-    //         'value' => ['foo' => 'bar']
-    //     ];
+    #[Test]
+    public function it_can_store_a_key_value_pair(): void
+    {
+        $storedData = [
+            'key' => 'mykey',
+            'value' => ['foo' => 'bar']
+        ];
 
-    //     $response = $this->postJson('/api/object', $storedData);
+        $response = $this->postJson('/api/object', $storedData);
     
-    //     $response->assertStatus(201)
-    //              ->assertJson(['success' => true]);
+        $response->assertStatus(201)
+                 ->assertJson(['success' => true]);
     
-    //     $this->assertDatabaseHas('key_values', [
-    //         'key' => $storedData['key'],
-    //         'value' => $this->castAsJson($storedData['value'])
-    //     ]);
-    // }
+        $this->assertDatabaseHas('key_values', [
+            'key' => $storedData['key'],
+            'value' => $this->castAsJson($storedData['value'])
+        ]);
+    }
 
     #[Test]
     public function it_can_get_the_latest_value_by_key()
