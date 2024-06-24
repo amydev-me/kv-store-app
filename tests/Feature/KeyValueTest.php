@@ -19,7 +19,7 @@ class KeyValueTest extends TestCase
         ]);
          
         $response->assertStatus(201)->assertJson(['success' => true]);
-        $this->assertDatabaseHas('key_value_store', [
+        $this->assertDatabaseHas('key_values', [
             'key' => 'mykey',
             'value' => json_encode(['foo' => 'bar'])
         ]);
