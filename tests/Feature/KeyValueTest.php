@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class KeyValueTest extends TestCase
 {
-    // use RefreshDatabase;
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      */
@@ -33,6 +33,11 @@ class KeyValueTest extends TestCase
         ]);
     }
 
+    /**
+     * Test retrieval of value by key.
+     *
+     * @return void
+     */
     #[Test]
     public function it_can_get_the_latest_value_by_key()
     {
@@ -52,5 +57,47 @@ class KeyValueTest extends TestCase
         // Assert the response
         $response->assertStatus(200)
                  ->assertJsonFragment($value2);
+    }
+
+    /**
+     * Test retrieval of value at a specific timestamp.
+     *
+     * @return void
+     */
+    public function testRetrieveValueAtTimestamp()
+    {
+        $key = 'mykey';
+        $value1 = ['foo' => 'bar'];
+        $value2 = ['foo' => 'baz'];
+
+        // Create records with identical created_at timestamps (simulating same second)
+        KeyValue::create(['key' => $key, 'value' => json_encode($value1)]); 
+        KeyValue::create(['key' => $key, 'value' => json_encode($value2)]);
+
+        // Make GET request to fetch the value at the specific timestamp
+        $timestamp = strtotime(now()); // Use current timestamp
+        $response = $this->getJson("/api/object/{$key}?timestamp={$timestamp}");
+
+        // Assert the response
+        $response->assertStatus(200)
+                 ->assertJson($value2);
+    }
+
+    /**
+     * Test retrieval of value when no records exist at the specific timestamp.
+     *
+     * @return void
+     */
+    public function testRetrieveValueAtNonExistingTimestamp()
+    {
+        $key = 'nonexistent_key';
+        $timestamp = strtotime(now()); // Use current timestamp
+
+        // Make GET request to fetch the value at the specific timestamp
+        $response = $this->getJson("/api/object/{$key}?timestamp={$timestamp}");
+
+        // Assert the response
+        $response->assertStatus(404)
+                 ->assertJson(['error' => 'No value found for the given timestamp.']);
     }
 }
