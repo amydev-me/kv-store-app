@@ -6,9 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class ExampleTest extends TestCase
 {
-    protected function setUp(): void
-    {
-    }
     /**
      * A basic test example.
      */

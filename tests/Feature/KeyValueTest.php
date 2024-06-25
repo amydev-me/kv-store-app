@@ -10,10 +10,7 @@ use Tests\TestCase;
 class KeyValueTest extends TestCase
 {
     use RefreshDatabase;
-    
-    protected function setUp(): void
-    {
-    }
+
 
     public function testItCanStoreAKeyValuePair(): void
     {
