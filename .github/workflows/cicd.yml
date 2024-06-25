@@ -42,14 +42,13 @@ jobs:
     - name: Run database migrations
       run: php artisan migrate --force
 
-    - name: Run tests and collect coverage
-      run: vendor/bin/phpunit --coverage-clover coverage.xml .
+    - name: Execute tests
+      run: php artisan test --coverage --coverage-clover storage/coverage/coverage.xml
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
+    - uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        file: coverage.xml
+        files: ./storage/coverage/coverage.xml
 
   deploy: 
     runs-on: ubuntu-latest
