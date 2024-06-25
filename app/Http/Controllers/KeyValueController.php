@@ -71,12 +71,13 @@ class KeyValueController extends Controller
         }
     }
 
-    /**
+     /**
      * Get all records and their values stored in the database.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getAllRecords(Request $request)
+    public function getAllRecords(Request $request) 
     { 
         
        $records = KeyValue::orderBy('created_at', 'desc')->paginate(); 
