@@ -11,9 +11,9 @@ use Tests\TestCase;
 class KeyValueTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+    // /**
+    //  * A basic feature test example.
+    //  */
     #[Test]
     public function it_can_store_a_key_value_pair(): void
     {
@@ -99,5 +99,27 @@ class KeyValueTest extends TestCase
         // Assert the response
         $response->assertStatus(404)
                  ->assertJson(['error' => 'No value found for the given timestamp.']);
+    }
+
+     /**
+     * Test pagination for fetching all records.
+     *
+     * @return void
+     */
+    public function testPaginationForAllRecords()
+    {
+        // Seed the database with 16 test records
+        KeyValue::factory()->count(16)->create();
+
+        // Make GET request to fetch the first page
+        $response = $this->getJson('/api/object/get_all_records');
+
+        // Assert response status
+        $response->assertStatus(200);
+
+        
+        $response->assertJsonCount(15, 'data');
+        $response->assertJsonPath('meta.last_page', 2);
+        
     }
 }

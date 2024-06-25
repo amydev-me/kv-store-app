@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\KeyValueResource;
 use App\Models\KeyValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -68,5 +69,18 @@ class KeyValueController extends Controller
                 return response()->json(['error' => 'No value found for the given key.'], 404);
             }
         }
+    }
+
+    /**
+     * Get all records and their values stored in the database.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAllRecords(Request $request)
+    { 
+        
+       $records = KeyValue::orderBy('created_at', 'desc')->paginate(); 
+       
+       return KeyValueResource::collection($records);
     }
 }
