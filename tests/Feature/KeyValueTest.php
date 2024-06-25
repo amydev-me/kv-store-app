@@ -2,11 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\KeyValueController;
 use App\Models\KeyValue;
+
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use PHPUnit\Framework\Attributes\Test;
+use Illuminate\Http\Request;
+use Mockery;
 use Tests\TestCase;
+
 
 class KeyValueTest extends TestCase
 {
@@ -31,6 +35,28 @@ class KeyValueTest extends TestCase
         ]);
     }
 
+    
+     /**
+     * Test storing a key-value pair with invalid input.
+     *
+     * @return void
+     */
+    public function testStoreWithInvalidInput()
+    {
+        $requestData = [
+            'key' => '', // Invalid empty key
+            'value' => ['foo' => 'bar']
+        ];
+
+        $response = $this->postJson('/api/object', $requestData);
+
+        $response->assertStatus(400)
+                 ->assertJsonStructure([
+                     'success',
+                     'error'
+                 ]);
+    } 
+
     /**
      * Test retrieval of value by key.
      *
@@ -54,6 +80,19 @@ class KeyValueTest extends TestCase
         // Assert the response
         $response->assertStatus(200)
                  ->assertJsonFragment($value2);
+    }
+
+    public function testGetDataKeyNotFound()
+    {
+        // Make a GET request with a non-existent key
+        $response = $this->get("/api/object/non_existent_key");
+
+        // Assert response status code and content
+        $response->assertStatus(404)
+                ->assertJson([
+                    'success' => false,
+                    'message' => 'No value found for the given key.',
+                ]);
     }
 
     /**
