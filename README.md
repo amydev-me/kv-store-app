@@ -1,3 +1,9 @@
+## Code Coverage
+
+[![codecov](https://codecov.io/gh/your-username/your-project/branch-name/graph/badge.svg)](https://app.codecov.io/github/amydev-me/kv-store-app)
+
+Click the badge above to view the detailed code coverage report.
+
 # Laravel KeyValue API
 
 This repository contains a Laravel-based API that provides key-value storage functionality. The API supports storing key-value pairs, retrieving the latest value by key, retrieving values at specific timestamps, and fetching all stored records with pagination. 
