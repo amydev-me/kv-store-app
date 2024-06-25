@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "0768b052-7567-4d7c-993b-498d8f80af7c",
+		"name": "KV-Store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "34748236"
+	},
+	"item": [
+		{
+			"name": "StoreKeyValue",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"key\" : \"mykey\", \n    \"value\": {\"foo\" : \"baz\"}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/api/object"
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveLatestValueByKey",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/api/object/mykey"
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveValueAtSpecificTimestamp",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/object/mykey?timestamp=1440568980",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"object",
+						"mykey"
+					],
+					"query": [
+						{
+							"key": "timestamp",
+							"value": "1440568980"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllRecords",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/api/object/get_all_records"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://laradepl-env.eba-hannxtrj.us-east-1.elasticbeanstalk.com",
+			"type": "string"
+		}
+	]
+}
