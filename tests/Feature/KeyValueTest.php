@@ -2,13 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\KeyValueController;
 use App\Models\KeyValue;
-
-use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Request;
-use Mockery;
+use Illuminate\Foundation\Testing\RefreshDatabase; 
 use Tests\TestCase;
 
 
@@ -16,6 +11,11 @@ class KeyValueTest extends TestCase
 {
     use RefreshDatabase;
     
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Additional setup specific to feature tests, if any
+    }
 
     public function testItCanStoreAKeyValuePair(): void
     {
