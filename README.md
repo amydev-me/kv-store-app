@@ -1,66 +1,135 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel KeyValue API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository contains a Laravel-based API that provides key-value storage functionality. The API supports storing key-value pairs, retrieving the latest value by key, retrieving values at specific timestamps, and fetching all stored records with pagination. 
 
-## About Laravel
+## Technologies Used
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **PHP:** 8.2
+- **Laravel:** 11
+- **Database:** MySQL (RDS for production and testing)
+- **CI/CD:** GitHub Actions
+- **Deployment:** AWS Elastic Beanstalk
+- **Testing:** PHPUnit
+- **API Documentation and Testing:** Postman
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **PHP:** >= 8.2
+- **Composer**
+- **MySQL or any other supported database**
+- **Node.js and npm (for frontend and other dependencies)**
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Clone the repository:**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    ```sh
+    git clone <repository_url>
+    cd <repository_name>
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Install dependencies:**
 
-## Laravel Sponsors
+    ```sh
+    composer install
+    npm install
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Copy the `.env` file and set up the environment variables:**
 
-### Premium Partners
+    ```sh
+    cp .env.example .env
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    Update the `.env` file with your database credentials and other configuration settings.
 
-## Contributing
+4. **Generate an application key:**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    ```sh
+    php artisan key:generate
+    ```
 
-## Code of Conduct
+5. **Run the database migrations:**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    ```sh
+    php artisan migrate
+    ```
 
-## Security Vulnerabilities
+## Running the Application
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. **Start the local development server:**
 
-## License
+    ```sh
+    php artisan serve
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## API Endpoints
+
+- **Store a Key-Value Pair:**
+
+    ```
+    POST /api/object
+    ```
+
+    **Request Body:**
+
+    ```json
+    {
+        "key": "your_key",
+        "value": "your_value"
+    }
+    ```
+
+- **Retrieve Latest Value by Key:**
+
+    ```
+    GET /api/object/{key}
+    ```
+
+- **Retrieve Value at Specific Timestamp:**
+
+    ```
+    GET /api/object/{key}?timestamp={timestamp}
+    ```
+
+- **Get All Records with Pagination:**
+
+    ```
+    GET /api/object/get_all_records
+    ```
+
+## Testing
+
+1. **Run the tests:**
+
+    ```sh
+    php artisan test
+    ```
+
+    Ensure that all tests pass. The tests include feature tests for the API endpoints and unit tests for internal methods.
+
+2. **Test Coverage Report:**
+
+    You can generate a test coverage report to ensure comprehensive coverage of your application logic.
+
+## CI/CD with GitHub Actions
+
+The project is set up with GitHub Actions for continuous integration and deployment. The workflow file is located in the `.github/workflows` directory and includes steps to:
+
+- Run tests on each push and pull request.
+- Deploy the application to AWS Elastic Beanstalk on successful builds.
+
+## Deployment
+
+The application is deployed to AWS Elastic Beanstalk. Ensure that your Elastic Beanstalk environment is set up with the necessary configuration, including the RDS database for production.
+
+## Postman Collection
+
+A Postman collection for testing the API endpoints is included in the repository. You can import this collection into Postman to quickly test and explore the API.
+
+### Importing the Collection
+
+1. Open Postman.
+2. Click on the "Import" button.
+3. Select the `KV-Store.postman_collection.json` file from the `postman` directory in this repository.
+4. Click "Open" to import the collection.
