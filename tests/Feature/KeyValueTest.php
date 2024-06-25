@@ -13,8 +13,6 @@ class KeyValueTest extends TestCase
     
     protected function setUp(): void
     {
-        parent::setUp();
-        // Additional setup specific to feature tests, if any
     }
 
     public function testItCanStoreAKeyValuePair(): void
