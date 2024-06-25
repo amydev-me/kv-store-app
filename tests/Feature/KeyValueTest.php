@@ -77,7 +77,10 @@ class KeyValueTest extends TestCase
 
         // Assert the response
         $response->assertStatus(200)
-                 ->assertJson($value2);
+                 ->assertJson([
+                    'success' => true,
+                    'data' => $value2
+                 ]);
     }
 
     /**
@@ -95,7 +98,10 @@ class KeyValueTest extends TestCase
 
         // Assert the response
         $response->assertStatus(404)
-                 ->assertJson(['error' => 'No value found for the given timestamp.']);
+                 ->assertJson([
+                    'success' => false,
+                    'message' => 'No value found for the given timestamp.'
+                ]);
     }
 
      /**
