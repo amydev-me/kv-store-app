@@ -28,75 +28,59 @@ class KeyValueController extends Controller
 
         $key = $request->input('key');
         $value = $request->input('value');
+       
+        KeyValue::create([
+            'key' => $key,
+            'value' => json_encode($value)
+        ]);
 
-       try{
-            KeyValue::create([
-                'key' => $key,
-                'value' => json_encode($value)
-            ]);
-
-            // Return a success response
-            return response()->json([
-                'success' => true,
-                'message' => 'Key and Value successfully created.'
-            ], 201);
-
-       }catch(QueryException $e) {
-            return response()->json(([
-                'success' => false, 
-                'message' => 'Failed to store the key-value pair.'
-            ]));
-       }
-        
+        // Return a success response
+        return response()->json([
+            'success' => true,
+            'message' => 'Key and Value successfully created.'
+        ], 201); 
     }
 
     public function getData($key, Request $request)
     {
-        try{
-            if ($request->has('timestamp')) {
-                $timestamp = $request->query('timestamp');
     
-                // Query the database for the value at the specified timestamp
-                $value = KeyValue::where('key', $key)
-                                 ->where('created_at', '<=', date('Y-m-d H:i:s', $timestamp))
-                                 ->orderBy('created_at', 'desc')
-                                 ->orderBy('id', 'desc')  
-                                 ->first();
-    
-                if ($value) {
-                    return response()->json([
-                        'success' => true,
-                        'data' => json_decode($value->value)
-                    ]);
-                } else {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'No value found for the given timestamp.'
-                    ], 404);
-                }
+        if ($request->has('timestamp')) {
+            $timestamp = $request->query('timestamp');
+
+            // Query the database for the value at the specified timestamp
+            $value = KeyValue::where('key', $key)
+                                ->where('created_at', '<=', date('Y-m-d H:i:s', $timestamp))
+                                ->orderBy('created_at', 'desc')
+                                ->orderBy('id', 'desc')  
+                                ->first();
+
+            if ($value) {
+                return response()->json([
+                    'success' => true,
+                    'data' => json_decode($value->value)
+                ]);
             } else {
-                // If no timestamp parameter is provided, return the latest value for the key
-                $record = KeyValue::where('key', $key)->latest('id')->first();
-    
-                if ($record) {
-                    return response()->json([
-                        'success' => true,
-                        'data' => json_decode($record->value)
-                    ]);
-                } else {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'No value found for the given key.'
-                    ], 404);
-                }
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No value found for the given timestamp.'
+                ], 404);
             }
-        }
-        catch(QueryException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to retrieve the data.'
-            ], 500);
-        }        
+        } else {
+            // If no timestamp parameter is provided, return the latest value for the key
+            $record = KeyValue::where('key', $key)->latest('id')->first();
+
+            if ($record) {
+                return response()->json([
+                    'success' => true,
+                    'data' => json_decode($record->value)
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No value found for the given key.'
+                ], 404);
+            }
+        }    
     }
 
      /**
@@ -107,18 +91,11 @@ class KeyValueController extends Controller
      */
     public function getAllRecords(Request $request) 
     {  
-       try {
-            $records = KeyValue::orderBy('created_at', 'desc')->paginate();
+        $records = KeyValue::orderBy('created_at', 'desc')->paginate();
 
-            return KeyValueResource::collection($records)->additional([
-                'success' => true,
-                'message' => 'Records retrieved successfully.'
-            ]);
-        } catch (QueryException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to retrieve records.'
-            ], 500);
-        }
+        return KeyValueResource::collection($records)->additional([
+            'success' => true,
+            'message' => 'Records retrieved successfully.'
+        ]);
     }
 }
