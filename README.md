@@ -1,8 +1,7 @@
 ## Code Coverage
 
-[![codecov](https://codecov.io/gh/your-username/your-project/branch-name/graph/badge.svg)](https://app.codecov.io/github/amydev-me/kv-store-app)
+[![codecov](https://codecov.io/github/amydev-me/kv-store-app/graph/badge.svg?token=KLRC73TSGS)](https://codecov.io/github/amydev-me/kv-store-app)
 
-Click the badge above to view the detailed code coverage report.
 
 # Laravel KeyValue API
 
