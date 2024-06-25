@@ -11,11 +11,9 @@ use Tests\TestCase;
 class KeyValueTest extends TestCase
 {
     use RefreshDatabase;
-    // /**
-    //  * A basic feature test example.
-    //  */
-    #[Test]
-    public function it_can_store_a_key_value_pair(): void
+    
+
+    public function testItCanStoreAKeyValuePair(): void
     {
         $storedData = [
             'key' => 'mykey',
@@ -38,8 +36,7 @@ class KeyValueTest extends TestCase
      *
      * @return void
      */
-    #[Test]
-    public function it_can_get_the_latest_value_by_key()
+    public function testItCanGetTheLatestValueByKey()
     {
         $key = 'mykey';
         $value1 = ['foo' => 'bar'];
